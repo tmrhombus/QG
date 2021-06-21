@@ -1,49 +1,22 @@
+
+# cleanup if you're running interactively
 rm(list=ls())
 
-# MME y=Xb+Zu+e
+# load functions
+source("usefulfunctions.R")
+
+# MME is y=Xb+Zu+e
+
+#load data
+data <- read.csv("data.csv")
 
 # define initial matrices
+data$env <- as.factor(data$env)
+data$sire <- as.factor(data$sire)
 
-# y = phenotypic observations
-y = matrix(
- c(9, 12, 11, 6, 7, 14),
- nrow=6,
- ncol=1,
- byrow=TRUE
-)
-
-# X = design (environment)
-X = matrix(
- c(1,0, 0,1, 1,0, 1,0, 1,0, 0,1),
- nrow=6,
- ncol=2,
- byrow=TRUE
-) 
-
-# b = environments
-# b = matrix(
-#  c(b1, b2),
-#  nrow=2,
-#  ncol=1,
-#  byrow=TRUE
-# )
-
-# incidence (genetic)
-Z = matrix(
- c(1,0,0, 1,0,0, 0,1,0, 0,1,0, 0,0,1, 0,0,1),
- nrow=6,
- ncol=3,
- byrow=TRUE
-)
-
-# u sires
-# u = matrix(
-#  c(u1, u2, u3),
-#  nrow=3,
-#  ncol=1,
-#  byrow=TRUE
-# )
-
+y <- data$pheno
+X <- model.matrix(~env - 1, data = data)
+Z <- model.matrix(~sire -1, data = data)
 
 # Covariance Matrices, hmm
  # R = s^2_E I 6x6 environments [X]
@@ -61,69 +34,26 @@ G <- G * sig2_S
 
 
 # V = covariance of y
-V = Z %*% G %*% t(Z) + R
+#V = Z %*% G %*% t(Z) + R
+V <- makeCOVy(Z, G, R)
 
 # BLUE of b
-bhat <- solve( t(X) %*% solve(V) %*% X ) %*% t(X) %*% solve(V) %*% y
+bhat <- makeBLUE(X, V, y)
+#bhat <- solve( t(X) %*% solve(V) %*% X ) %*% t(X) %*% solve(V) %*% y
 # BLUP of u
-uhat <- G %*% t(Z) %*% solve(V) %*% ( y - X %*% bhat )
+uhat <- makeBLUP(X, Z, y, V, G)
+#uhat <- G %*% t(Z) %*% solve(V) %*% ( y - X %*% bhat )
 
+# print values
 # these give the same values as in the book
 # example 2
 bhat
 uhat
 
 # example 4
-# MME equations
-#
-# | XT R-1 X   XT R-1 Z       | |bhat|   |XT R-1 y|
-# | ZT R-1 X   ZT R-1 Z + G-1 | |uhat| = |ZT R-1 y| 
-# A B = C
-
-# left side matrix
-# (top left) 
-TL <- t(X) %*% solve(R) %*% X
-# (top right)
-TR <- t(X) %*% solve(R) %*% Z
-# (bot left)
-BL <- t(Z) %*% solve(R) %*% X
-# (bot right)
-BR <- t(Z) %*% solve(R) %*% Z + solve(G)
-
-# # check
-#  6 * TL
-#  6 * TR
-#  6 * BL
-#  6 * BR
-
-# right side matrix
-RT <- t(X) %*% solve(R) %*% y
-RB <- t(Z) %*% solve(R) %*% y
-
-# # check
-#  6 * RT
-#  6 * RB
- 
-# this doesn't work
-# # MME : LHS * bhat/uhat = RHS
-# LHS <- matrix(
-#  c(TL, TR, BL, BR),
-#   nrow=5,
-#   ncol=5,
-#   byrow=TRUE
-# )
-
-# binding a matrix from submatrices
-LHS_T <- cbind(TL,TR)
-LHS_B <- cbind(BL,BR)
-LHS <- rbind(LHS_T,LHS_B)
-
-RHS <- rbind(RT,RB)
-
-# B = A-1 C
-bhatuhat <- solve(LHS) %*% RHS
+blueblup <- makeBLUEBLUP(X, Z, y, R, G)
 
 # checks out
-bhatuhat
+blueblup
 
 
