@@ -3,7 +3,7 @@ rm(list=ls())
 
 # Example 2
 
-setwd("~/Desktop/")
+setwd("~/Repositories/QG/CH26_GenAnalysisLynchWalsh/")
 data <- read.csv("data.csv")
 
 data$env <- as.factor(data$env)
@@ -24,6 +24,21 @@ V_inv <- solve(V)
 
 b <- solve(t(X) %*% V_inv %*% X) %*% t(X) %*% V_inv %*% y
 u <- G %*% t(Z) %*% V_inv %*% (y - X %*% b)
+
+# > u
+# [,1]
+# [1,] -0.05555556
+# [2,]  0.11111111
+# [3,] -0.05555556
+
+
+# Using MME script
+source("MME-updated.R")
+BLUP1 <- MME(y=y,X=X,Z=list(Z),Vu=list(G),Ve=Ve,m=1)
+
+# > BLUP1$BLUP
+# [1] 10.58333 10.75000 10.58333
+
 
 
 
