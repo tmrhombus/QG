@@ -41,5 +41,25 @@ BLUP1 <- MME(y=y,X=X,Z=list(Z),Vu=list(G),Ve=Ve,m=1)
 
 
 
+# MME
 
+Q11 <- t(X) %*% solve(R) %*% X
+Q12 <- t(X) %*% solve(R) %*% Z
+Q21 <- t(Z) %*% solve(R) %*% X
+Q22 <- (t(Z) %*% solve(R) %*% Z) + solve(G)
 
+LH <- rbind(cbind(Q11, Q12), cbind(Q21, Q22))
+
+RH1 <- t(X) %*% solve(R) %*% y
+RH2 <- t(Z) %*% solve(R) %*% y
+
+RH <- rbind(RH1, RH2)
+
+solve(Q) %*% RH
+
+# [,1]
+# env1   8.22222222
+# env2  13.05555556
+# sire1 -0.05555556
+# sire2  0.11111111
+# sire3 -0.05555556
