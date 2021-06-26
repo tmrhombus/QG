@@ -16,6 +16,7 @@ direct.sum <- function(argv) {
   }
   return(rmat)
 }
+
 MME <- function(y,X,Z,Vu,Ve,m=1) {
   #y = vector of phenotypes (without missing data)
   #X = design matrix for fixed effects, assumes single factor.
@@ -59,3 +60,5 @@ MME <- function(y,X,Z,Vu,Ve,m=1) {
   rownames(tmp) <- NULL
   return(tmp)
 }
+
+
