@@ -24,6 +24,7 @@ V_inv <- solve(V)
 
 b <- solve(t(X) %*% V_inv %*% X) %*% t(X) %*% V_inv %*% y
 u <- G %*% t(Z) %*% V_inv %*% (y - X %*% b)
+mean(b) + u
 
 # > u
 # [,1]
@@ -35,6 +36,8 @@ u <- G %*% t(Z) %*% V_inv %*% (y - X %*% b)
 # Using MME script
 source("MME-updated.R")
 BLUP1 <- MME(y=y,X=X,Z=list(Z),Vu=list(G),Ve=Ve,m=1)
+BLUP1
+
 
 # > BLUP1$BLUP
 # [1] 10.58333 10.75000 10.58333
@@ -44,6 +47,11 @@ BLUP1 <- MME(y=y,X=X,Z=list(Z),Vu=list(G),Ve=Ve,m=1)
 # MME
 
 Q11 <- t(X) %*% solve(R) %*% X
+
+tmp <- crossprod(X,X)
+tmp/Ve
+Jeff <- crossprod(X,X/Ve)
+
 Q12 <- t(X) %*% solve(R) %*% Z
 Q21 <- t(Z) %*% solve(R) %*% X
 Q22 <- (t(Z) %*% solve(R) %*% Z) + solve(G)
