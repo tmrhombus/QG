@@ -1,0 +1,8 @@
+
+https://towardsdatascience.com/how-to-run-r-scripts-in-jupyter-15527148d2a
+
+open via
+
+jupyter notebook
+
+then navigate to open correct *.ipynb file
