@@ -1,0 +1,52 @@
+
+Homework 1
+Agron/Hort 812
+Spring 2022
+
+Due Feb 11 @ 5 pm to Canvas
+
+1.	(10 points) Write an R script to calculate the selection intensity for truncation selection of the top 13.5% of a population. What is the answer to 2 decimal places? Upload your R script with your assignment.
+
+2.	(10 points) For selection on phenotypic means in a replicated experiment with a completely randomized design,
+A. How would you calculate selection accuracy from the entry-mean heritability?  
+B. How would you calculate selection accuracy from the plot-based heritability?  
+
+3.	(10 points) If the plot-based heritability is 0.2, what is the entry-mean heritability with 2 reps?
+
+4.	(10 points) You are tasked with breeding for yield in a region where production is rainfed and drought stress is common. However, on your research farm, you have the option of irrigating. Previous research suggests the entry-mean heritability for your trials under rainfed conditions is 0.2, while under irrigated conditions it is 0.5. How high does the genetic correlation between the two managements systems need to be for indirect selection under irrigation to be the superior strategy for genetic gain?
+
+
+
+
+
+
+
+
+
+
+In general, the response of a normal distribution under truncation selection wrt. variable $x$ is given by
+$R=E_s[x_2]-\mu_2$
+Where \
+$x_2$ is the random variable for the new (truncated) distribution \
+$E_s[x_2]$ is the expectation value of $x_s$ under selection condition $s$ \
+$\mu_2$ is the mean of the new distribution
+
+
+The Breeder's Equation gives the response for Trait 2 in terms of selection on Trait 1 as
+$R_2 = r_{1,2}\frac{\sigma_2}{\sigma_1}S_1$ \
+Where \
+$r_{1,2}=\frac{\sigma_{1,2}}{\sigma_1 \sigma_2}$ gives the correlation between Trait 1 and 2, normalized by the widths of their own distributions \
+$S_1=E[x_1|x_1\geq a]-E[x_1]$ is the selection on $x_1$ \
+$S_1$ is the response of the distribution of $x_1$ after selection on $x_1$ itself
+
+
+
+We define the selection intensity $i$ by $\mu_2 = \mu + \sigma i$ as the additive shift in the mean of the distribution under selection in terms of the standard deviation of the original distribution. 
+
+After some algebra, we find that $i(a)=\phi(a)/(1-\Phi(a))$ for truncation at $a$ and $\phi(x), \Phi(x)$ as defined in Q1. 
+
+In terms of 
+
+For direct selection, the response of genotpye 1 is given by \
+$R_{g1} = i_{y_1}r_{y_1,g_1}\sigma_{g_1}$
+
